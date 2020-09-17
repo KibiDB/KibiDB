@@ -35,4 +35,11 @@ public class ConfigManager {
         manager.properties = new Config(Kibi.getDataPath() + "kibi.properties", Config.PROPERTIES);
         manager.database = new Config(Kibi.getBaseDataPath() + "basedata.dat", Config.YAML);
     }
+
+    public static void unload() {
+        ServerManager server = Kibi.getServer();
+
+        server.getDataBase().save();
+        server.getProperties().save();
+    }
 }

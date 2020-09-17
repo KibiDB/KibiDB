@@ -1,7 +1,9 @@
 package com.kibi.manager;
 
 import com.kibi.command.CommandMap;
+import com.kibi.command.defaults.GetCommand;
 import com.kibi.command.defaults.HelpCommand;
+import com.kibi.command.defaults.InsertCommand;
 import com.kibi.command.defaults.StopCommand;
 import com.kibi.config.Config;
 
@@ -19,8 +21,18 @@ public class ServerManager {
 
         commandMap.register("help", new HelpCommand());
         commandMap.register("stop", new StopCommand());
+        commandMap.register("insert", new InsertCommand());
+        commandMap.register("get", new GetCommand());
 
         commandMap.start();
+    }
+
+    public Config getDataBase() {
+        return database;
+    }
+
+    public Config getProperties() {
+        return properties;
     }
 
     public String getIp() {
@@ -37,10 +49,6 @@ public class ServerManager {
 
     public String getPassword() {
         return properties.getString("password");
-    }
-
-    public Config getDatabase() {
-        return database;
     }
 
     public CommandMap getCommandMap() {
