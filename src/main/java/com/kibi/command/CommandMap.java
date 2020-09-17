@@ -14,14 +14,15 @@ public class CommandMap extends Thread {
         while (stop_code == 0) {
             System.out.println("<kibi:command>");
 
-            Scanner entry = new Scanner(System.in);
-            String commandPrefix = entry.nextLine().split(" ")[0];
-            String[] args = entry.nextLine().replace(commandPrefix + " ", "").split(" ");
+            String entry = (new Scanner(System.in)).nextLine();
+            String commandPrefix = entry.split(" ")[0];
 
-            if (!exits(commandPrefix))
+            if (!exits(commandPrefix)) {
                 Kibi.getLogger().info("Unknown command use (help) to get support list");
-            else
+            } else {
+                String[] args = entry.replace(commandPrefix + " ", "").split(" ");
                 map.get(commandPrefix).execute(args);
+            }
         }
     }
 
