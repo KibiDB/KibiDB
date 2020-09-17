@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="Kibi:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/Kibi_jar</output-path>
-    <root id="archive" name="Kibi.jar">
-      <element id="module-output" name="Kibi" />
-    </root>
-  </artifact>
-</component>

@@ -25,7 +25,7 @@ public class ConfigManager {
             Config properties = new Config(Kibi.getDataPath() + "kibi.properties", Config.PROPERTIES, new ConfigSection() {{
                 put("ip", "0.0.0.0");
                 put("port", 3306);
-                put("max_connectios", "0"); //0 = unlimited, if you change the number it will limit the connections
+                put("max_connections", "0"); //0 = unlimited, if you change the number it will limit the connections
                 put("password", Base64.getEncoder().encodeToString(UUID.randomUUID().toString().replace("-", "").getBytes()).substring(3, 13));
             }});
 
