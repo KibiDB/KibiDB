@@ -12,8 +12,6 @@ public class CommandMap extends Thread {
 
     public void run() {
         while (stop_code == 0) {
-            System.out.println("<kibi:command>");
-
             String entry = (new Scanner(System.in)).nextLine();
             String commandPrefix = entry.split(" ")[0];
 

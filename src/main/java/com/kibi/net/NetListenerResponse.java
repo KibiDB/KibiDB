@@ -3,6 +3,7 @@ package com.kibi.net;
 import com.kibi.Kibi;
 import com.kibi.config.Config;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -20,11 +21,11 @@ public class NetListenerResponse extends Thread {
     public void run() {
         //format of request [password] [request_type] [key] [value:optional]
         try {
-            PrintWriter writer = new PrintWriter(client.getOutputStream());
+            DataOutputStream writer = new DataOutputStream(client.getOutputStream());
 
             //check password
             if (!request[0].equals(Kibi.getServer().getPassword())) {
-                writer.println(Responses.INCORRECT_PASSWORD);
+                writer.writeUTF(Responses.INCORRECT_PASSWORD);
                 client.close();
                 writer.close();
 
@@ -33,63 +34,65 @@ public class NetListenerResponse extends Thread {
 
             String petition = request[1].toUpperCase();
             Config database = Kibi.getServer().getDataBase();
-            String key = request.length >= 3 ? request[3] : null;
+            String key = request.length >= 3 ? request[2] : null;
             String value = request.length >= 4 ? request[3] : null;
 
             switch (petition) {
                 case Requests.INSERT:
                     if (key == null || value == null) {
-                        writer.println(Responses.INVALID_QUERY);
+                        writer.writeUTF(Responses.INVALID_QUERY);
                     } else {
+                        writer.writeUTF(Responses.INSERT_OK);
                         database.set(key, value);
-                        writer.println(Responses.INSERT_OK);
                     }
                     break;
                 case Requests.GET:
                     if (key == null) {
-                        writer.println(Responses.INVALID_QUERY);
+                        writer.writeUTF(Responses.INVALID_QUERY);
                     } else {
 
                         if (!database.exists(key)) {
-                            writer.println(Responses.GET_NULL);
+                            writer.writeUTF(Responses.GET_NULL);
                         } else {
-                            writer.println(database.getString(key));
+                            writer.writeUTF(database.getString(key));
                         }
 
                     }
                     break;
                 case Requests.SET:
                     if (key == null || value == null) {
-                        writer.println(Responses.INVALID_QUERY);
+                        writer.writeUTF(Responses.INVALID_QUERY);
                     } else {
 
                         if (!database.exists(key)) {
-                            writer.println(Responses.SET_NULL);
+                            writer.writeUTF(Responses.SET_NULL);
                         } else {
-                            writer.println(Responses.SET_OK);
+                            writer.writeUTF(Responses.SET_OK);
+                            database.set(key, value);
                         }
 
                     }
                     break;
                 case Requests.REMOVE:
                     if (key == null) {
-                        writer.println(Responses.INVALID_QUERY);
+                        writer.writeUTF(Responses.INVALID_QUERY);
                     } else {
 
                         if (!database.exists(key)) {
-                            writer.println(Responses.REMOVE_NULL);
+                            writer.writeUTF(Responses.REMOVE_NULL);
                         } else {
-                            writer.println(Responses.REMOVE_OK);
+                            writer.writeUTF(Responses.REMOVE_OK);
+                            database.remove(key);
                         }
 
                     }
                     break;
                 case Requests.CLEAR:
+                    writer.writeUTF(Responses.CLEAR_OK);
+
                     database.getAll().forEach((data_key, data_value) -> {
                         database.remove(data_key);
                     });
-
-                    writer.println(Responses.CLEAR_OK);
                     break;
             }
 

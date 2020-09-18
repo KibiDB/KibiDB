@@ -5,6 +5,8 @@ import com.kibi.command.defaults.*;
 import com.kibi.config.Config;
 import com.kibi.net.Net;
 
+import java.io.IOException;
+
 public class ServerManager {
 
     public Config properties;
@@ -29,6 +31,13 @@ public class ServerManager {
         commandMap.register("list", new ListCommand());
 
         net.start();
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         commandMap.start();
     }
 
@@ -62,10 +71,6 @@ public class ServerManager {
 
     public int getPort() {
         return this.getPropertyInt("port", 3306);
-    }
-
-    public int getMaxConnections() {
-        return this.getPropertyInt("max_connections", 0);
     }
 
     public String getPassword() {

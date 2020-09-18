@@ -19,7 +19,6 @@ public class Logger {
 
     public void error(String message) {
         send("error", message);
-        System.exit(0);
     }
 
     private void send(String prefix, String message) {
