@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class CommandMap extends Thread {
     private static Map<String, ConsoleCommandSender> map = new HashMap<>();
-    public int stop_code = 0;
+    private int stop_code = 0;
 
     public void run() {
         while (stop_code == 0) {

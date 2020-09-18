@@ -3,6 +3,7 @@ package com.kibi.manager;
 import com.kibi.command.CommandMap;
 import com.kibi.command.defaults.*;
 import com.kibi.config.Config;
+import com.kibi.net.Net;
 
 public class ServerManager {
 
@@ -10,9 +11,11 @@ public class ServerManager {
     public Config database;
 
     private CommandMap commandMap;
+    private Net net;
 
     public void initialize() {
         commandMap = new CommandMap();
+        net = new Net();
         ConfigManager.initialize(this);
 
 
@@ -25,6 +28,7 @@ public class ServerManager {
         commandMap.register("clear", new ClearCommand());
         commandMap.register("list", new ListCommand());
 
+        net.start();
         commandMap.start();
     }
 
@@ -36,12 +40,20 @@ public class ServerManager {
         return properties;
     }
 
-    public String getIp() {
-        return properties.getString("ip");
+    public Net getNet() {
+        return net;
+    }
+
+    public int getPropertyInt(String variable) {
+        return this.getPropertyInt(variable, null);
+    }
+
+    public int getPropertyInt(String variable, Integer defaultValue) {
+        return this.properties.exists(variable) ? (!this.properties.get(variable).equals("") ? Integer.parseInt(String.valueOf(this.properties.get(variable))) : defaultValue) : defaultValue;
     }
 
     public int getPort() {
-        return properties.getInt("port");
+        return this.getPropertyInt("port", 3306);
     }
 
     public int getMaxConnections() {

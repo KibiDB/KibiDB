@@ -26,7 +26,7 @@ public class StopCommand extends ConsoleCommandSender {
 
         ConfigManager.unload();
 
-        //future stop connections and server
+        Kibi.getServer().getNet().destroy();
 
         Kibi.getServer().getCommandMap().destroy();
     }
