@@ -7,6 +7,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class Net extends Thread {
     private int stop_code = 0;
@@ -28,13 +29,22 @@ public class Net extends Thread {
 
                 DataInputStream in = new DataInputStream(client.getInputStream());
                 String listener = in.readUTF();
-                System.out.println(listener);
 
                 Thread response = new NetListenerResponse(client, listener);
                 response.start();
 
-            } catch (IOException e) {
+            } catch (SocketException e) {
                 logger.error(e.toString());
+
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException exception) {
+                    logger.warning(exception.toString());
+                }
+
+                System.exit(0);
+            } catch (IOException e) {
+                logger.warning(e.toString());
             }
         }
     }
@@ -43,7 +53,7 @@ public class Net extends Thread {
         try {
             socket.close();
         } catch (IOException e) {
-            //ignore
+            Kibi.getLogger().warning(e.toString());
         }
 
         stop_code = 1;

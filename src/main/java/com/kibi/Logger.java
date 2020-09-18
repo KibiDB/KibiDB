@@ -1,24 +1,31 @@
 package com.kibi;
 
+import java.awt.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Logger {
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_RESET = "\u001B[0m";
+
     public void info(String message) {
-        send("info", message);
+        send("info", ANSI_RESET + message);
     }
 
     public void warning(String message) {
-        send("warning", message);
+        send("warning", ANSI_YELLOW + message);
     }
 
     public void critical(String message) {
-        send("critical", message);
+        send("critical",ANSI_RED + message);
     }
 
     public void error(String message) {
-        send("error", message);
+        send("error", ANSI_RED + message);
     }
 
     private void send(String prefix, String message) {
@@ -27,6 +34,6 @@ public class Logger {
         DateFormat dateFormat = new SimpleDateFormat("h:mm a");
         Date date = new Date();
 
-        System.out.println("["+dateFormat.format(date)+"][Kibi][" + prefix.toUpperCase() + "]: " +message + "\n");
+        System.out.println(ANSI_PURPLE + "["+dateFormat.format(date) +  "]" + ANSI_CYAN + "[Kibi]" + ANSI_RESET + "[" + prefix.toUpperCase() + "]: " + message + ANSI_RESET + "\n");
     }
 }

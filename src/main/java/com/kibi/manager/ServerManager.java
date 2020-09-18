@@ -1,11 +1,13 @@
 package com.kibi.manager;
 
+import com.kibi.Kibi;
+import com.kibi.Logger;
 import com.kibi.command.CommandMap;
 import com.kibi.command.defaults.*;
 import com.kibi.config.Config;
 import com.kibi.net.Net;
 
-import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class ServerManager {
 
@@ -16,6 +18,11 @@ public class ServerManager {
     private Net net;
 
     public void initialize() {
+        Logger logger = Kibi.getLogger();
+
+        logger.info("Loading Kibi v" + Kibi.getKibiVersion() + "...");
+        final long startTime = System.currentTimeMillis();
+
         commandMap = new CommandMap();
         net = new Net();
         ConfigManager.initialize(this);
@@ -35,10 +42,13 @@ public class ServerManager {
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            logger.error(e.toString());
         }
 
         commandMap.start();
+
+        final long endTime = System.currentTimeMillis();
+        logger.info("Kibi was loaded in (" + TimeUnit.MILLISECONDS.toSeconds(endTime - startTime) + ") seconds...");
     }
 
     public Config getDataBase() {
@@ -59,10 +69,6 @@ public class ServerManager {
 
     public int getPropertyInt(String variable, Integer defaultValue) {
         return this.properties.exists(variable) ? (!this.properties.get(variable).equals("") ? Integer.parseInt(String.valueOf(this.properties.get(variable))) : defaultValue) : defaultValue;
-    }
-
-    public String getPropertyString(String variable) {
-        return this.getPropertyString(variable, null);
     }
 
     public String getPropertyString(String variable, String defaultValue) {
