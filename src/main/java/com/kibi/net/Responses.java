@@ -9,4 +9,5 @@ public class Responses {
     public final static String REMOVE_OK = "REMOVE OK";
     public final static String CLEAR_OK = "CLEAR OK";
     public final static String INCORRECT_PASSWORD = "LOGIN FAILED";
+    public final static String INVALID_QUERY = "INVALID_QUERY";
 }
