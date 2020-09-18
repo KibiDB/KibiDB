@@ -23,6 +23,7 @@ public class ServerManager {
         commandMap.register("set", new SetCommand());
         commandMap.register("remove", new RemoveCommand());
         commandMap.register("clear", new ClearCommand());
+        commandMap.register("list", new ListCommand());
 
         commandMap.start();
     }
