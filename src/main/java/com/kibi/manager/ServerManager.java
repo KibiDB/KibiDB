@@ -52,16 +52,24 @@ public class ServerManager {
         return this.properties.exists(variable) ? (!this.properties.get(variable).equals("") ? Integer.parseInt(String.valueOf(this.properties.get(variable))) : defaultValue) : defaultValue;
     }
 
+    public String getPropertyString(String variable) {
+        return this.getPropertyString(variable, null);
+    }
+
+    public String getPropertyString(String variable, String defaultValue) {
+        return this.properties.exists(variable) ? (String) this.properties.get(variable) : defaultValue;
+    }
+
     public int getPort() {
         return this.getPropertyInt("port", 3306);
     }
 
     public int getMaxConnections() {
-        return properties.getInt("max_connections");
+        return this.getPropertyInt("max_connections", 0);
     }
 
     public String getPassword() {
-        return properties.getString("password");
+        return this.getPropertyString("password", "");
     }
 
     public CommandMap getCommandMap() {
