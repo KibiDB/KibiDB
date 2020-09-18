@@ -34,7 +34,7 @@ public class Net extends Thread {
                 response.start();
 
             } catch (SocketException e) {
-                logger.error(e.toString());
+                logger.warning(e.toString());
 
                 try {
                     Thread.sleep(3000);
