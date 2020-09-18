@@ -1,10 +1,7 @@
 package com.kibi.manager;
 
 import com.kibi.command.CommandMap;
-import com.kibi.command.defaults.GetCommand;
-import com.kibi.command.defaults.HelpCommand;
-import com.kibi.command.defaults.InsertCommand;
-import com.kibi.command.defaults.StopCommand;
+import com.kibi.command.defaults.*;
 import com.kibi.config.Config;
 
 public class ServerManager {
@@ -23,6 +20,9 @@ public class ServerManager {
         commandMap.register("stop", new StopCommand());
         commandMap.register("insert", new InsertCommand());
         commandMap.register("get", new GetCommand());
+        commandMap.register("set", new SetCommand());
+        commandMap.register("remove", new RemoveCommand());
+        commandMap.register("clear", new ClearCommand());
 
         commandMap.start();
     }
