@@ -14,3 +14,20 @@ KibiDB works in the <K, V> format in strings, something similar to the Redis rul
 | Python | NONE |
 | NodeJS | NONE |
 
+### How use
+
+- Have Java 8 or above installed
+- Download KibiDB.jar from the Releases area
+- Run command java -cp KibiDB.jar com.kibi.Kibi
+
+### How to configure
+The software generates a file called kibi.properties, in which you can configure the software to your liking
+
+| config | description |
+|:-:|:-:|
+| port | It is the port where the software will listen/send the information |
+| whitelist | If you activate this option "on" only the IPs that are added will be able to send requests to the software |
+| authentication | It is advisable to leave it "on" but if you want to turn it off "off", any person can consult the software without the need for a password |
+| password | Client authentication password |
+
+
