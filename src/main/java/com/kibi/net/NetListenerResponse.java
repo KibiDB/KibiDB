@@ -5,7 +5,6 @@ import com.kibi.config.Config;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.Socket;
 
 public class NetListenerResponse extends Thread {
@@ -34,6 +33,7 @@ public class NetListenerResponse extends Thread {
 
             String petition = request[1].toUpperCase();
             Config database = Kibi.getServer().getDataBase();
+
             String key = request.length >= 3 ? request[2] : null;
             String value = request.length >= 4 ? request[3] : null;
 
@@ -93,6 +93,9 @@ public class NetListenerResponse extends Thread {
                     database.getAll().forEach((data_key, data_value) -> {
                         database.remove(data_key);
                     });
+                    break;
+                default:
+                    writer.writeUTF(Responses.INVALID_QUERY);
                     break;
             }
 

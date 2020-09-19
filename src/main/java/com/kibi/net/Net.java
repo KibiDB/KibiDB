@@ -18,6 +18,7 @@ public class Net extends Thread {
         int port = Kibi.getServer().getPort();
 
         while (stop_code == 0) {
+
             try {
                 if (socket == null) {
                     socket = new ServerSocket(port);
