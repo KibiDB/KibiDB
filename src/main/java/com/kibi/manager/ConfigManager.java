@@ -24,6 +24,7 @@ public class ConfigManager {
         if (!new File(Kibi.getDataPath() + "kibi.properties").exists()) {
             Config properties = new Config(Kibi.getDataPath() + "kibi.properties", Config.PROPERTIES, new ConfigSection() {{
                 put("port", 3306);
+                put("authentication", true);
                 put("password", Base64.getEncoder().encodeToString(UUID.randomUUID().toString().replace("-", "").getBytes()).substring(3, 13));
             }});
 

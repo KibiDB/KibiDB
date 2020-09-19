@@ -63,20 +63,39 @@ public class ServerManager {
         return net;
     }
 
-    public int getPropertyInt(String variable) {
-        return this.getPropertyInt(variable, null);
-    }
-
-    public int getPropertyInt(String variable, Integer defaultValue) {
+    private int getPropertyInt(String variable, Integer defaultValue) {
         return this.properties.exists(variable) ? (!this.properties.get(variable).equals("") ? Integer.parseInt(String.valueOf(this.properties.get(variable))) : defaultValue) : defaultValue;
     }
 
-    public String getPropertyString(String variable, String defaultValue) {
+    private String getPropertyString(String variable, String defaultValue) {
         return this.properties.exists(variable) ? (String) this.properties.get(variable) : defaultValue;
+    }
+
+    private boolean getPropertyBoolean(String variable, Object defaultValue) {
+        Object value = this.properties.exists(variable) ? this.properties.get(variable) : defaultValue;
+
+        if (value instanceof Boolean) {
+            return (Boolean) value;
+        }
+
+        switch (String.valueOf(value)) {
+            case "on":
+            case "true":
+            case "1":
+            case "yes":
+
+                return true;
+        }
+
+        return false;
     }
 
     public int getPort() {
         return this.getPropertyInt("port", 3306);
+    }
+
+    public boolean getAuthentication() {
+        return this.getPropertyBoolean("authentication", true);
     }
 
     public String getPassword() {

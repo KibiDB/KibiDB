@@ -2,6 +2,7 @@ package com.kibi.net;
 
 import com.kibi.Kibi;
 import com.kibi.config.Config;
+import com.kibi.manager.ServerManager;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -23,9 +24,10 @@ public class NetListenerResponse extends Thread {
         //format of request [password] [request_type] [key] [value:optional]
         try {
             DataOutputStream writer = new DataOutputStream(client.getOutputStream());
+            ServerManager server = Kibi.getServer();
 
             //check password
-            if (!request[0].equals(Kibi.getServer().getPassword())) {
+            if (server.getAuthentication() && !request[0].equals(server.getPassword())) {
                 writer.writeUTF(Responses.INCORRECT_PASSWORD);
                 client.close();
                 writer.close();
