@@ -1,6 +1,5 @@
 package com.kibi;
 
-import java.awt.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,10 +17,6 @@ public class Logger {
 
     public void warning(String message) {
         send("warning", ANSI_YELLOW + message);
-    }
-
-    public void critical(String message) {
-        send("critical",ANSI_RED + message);
     }
 
     public void error(String message) {
