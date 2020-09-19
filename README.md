@@ -37,11 +37,11 @@ The software generates a file called kibi.properties, in which you can configure
 |:-:|:-:|
 | help | Get a help list of all commands |
 | stop | Shut down KibiDB properly |
-| whitelist <add/remove> <str:ip> | Add or remove an ip from the whitelist |
-| insert <atr:key> <atr:value> | Insert a new record or overwrite the existing one |
-| get <str:key> | Get a record or NULL if it doesn't exist |
-| set <str:key> <str:value> | Change the value of an existing record |
-| remove <str:key> | Delete a record |
+| whitelist | Add or remove an ip from the whitelist |
+| insert | Insert a new record or overwrite the existing one |
+| get | Get a record or NULL if it doesn't exist |
+| set | Change the value of an existing record |
+| remove | Delete a record |
 | clear | Delete all records |
 
 
