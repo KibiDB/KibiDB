@@ -27,16 +27,17 @@ public class NetListenerResponse extends Thread {
             writer = new DataOutputStream(client.getOutputStream());
             ServerManager server = Kibi.getServer();
 
-            //check password
-            if (server.getAuthentication() && !request[0].equals(server.getPassword())) {
-                writer.writeUTF(Responses.INCORRECT_PASSWORD);
+            //whitelist
+            if (server.hasWhitelist() && !server.getWhitelist().exists(client.getLocalAddress().getHostAddress())) {
+                writer.writeUTF(Responses.IN_WHITELIST);
                 this.destroy();
 
                 return;
             }
 
-            if (server.hasWhitelist() && !server.getWhitelist().exists(client.getLocalAddress().getHostAddress())) {
-                writer.writeUTF(Responses.IN_WHITELIST);
+            //check password
+            if (server.getAuthentication() && !request[0].equals(server.getPassword())) {
+                writer.writeUTF(Responses.INCORRECT_PASSWORD);
                 this.destroy();
 
                 return;
