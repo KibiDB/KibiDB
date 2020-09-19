@@ -43,5 +43,6 @@ The software generates a file called kibi.properties, in which you can configure
 | set | Change the value of an existing record |
 | remove | Delete a record |
 | clear | Delete all records |
+| list | Get a list of all records |
 
 
