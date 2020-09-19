@@ -20,6 +20,21 @@
         </plugins>
     </build>
 
+    <organization>
+        <name>KibiDB</name>
+        <url>https://github.com/KibiDB/KibiDB</url>
+    </organization>
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.build.timestamp.format>HHmm-ddMMyyyy</maven.build.timestamp.format>
+
+        <api.version>1.0</api.version>
+        <common.version>1.0</common.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.yaml</groupId>
@@ -28,6 +43,4 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
-
-
 </project>
