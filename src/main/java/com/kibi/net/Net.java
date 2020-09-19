@@ -31,7 +31,7 @@ public class Net extends Thread {
 
                 Socket client = socket.accept();
                 channels.add(client);
-                logger.info("Connection accepted " + client.getLocalAddress());
+                logger.info("Connection accepted " + client.getLocalAddress().getHostAddress());
 
                 DataInputStream in = new DataInputStream(client.getInputStream());
                 String listener = in.readUTF();
@@ -48,9 +48,11 @@ public class Net extends Thread {
                     logger.warning(exception.toString());
                 }
 
+                this.destroy();
                 System.exit(0);
             } catch (IOException e) {
                 logger.warning(e.toString());
+                this.destroy();
             }
         }
     }

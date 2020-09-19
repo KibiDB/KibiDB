@@ -24,6 +24,7 @@ public class ConfigManager {
         if (!new File(Kibi.getDataPath() + "kibi.properties").exists()) {
             Config properties = new Config(Kibi.getDataPath() + "kibi.properties", Config.PROPERTIES, new ConfigSection() {{
                 put("port", 3306);
+                put("whitelist", false);
                 put("authentication", true);
                 put("password", Base64.getEncoder().encodeToString(UUID.randomUUID().toString().replace("-", "").getBytes()).substring(3, 13));
             }});
@@ -31,8 +32,14 @@ public class ConfigManager {
             properties.save();
         }
 
+        if (!new File(Kibi.getDataPath() + "whitelist.yml").exists()) {
+            Config whitelist = new Config(Kibi.getDataPath() + "whitelist.yml", Config.YAML);
+            whitelist.save();
+        }
+
         manager.properties = new Config(Kibi.getDataPath() + "kibi.properties", Config.PROPERTIES);
         manager.database = new Config(Kibi.getBaseDataPath() + "basedata.dat", Config.YAML);
+        manager.whitelist = new Config(Kibi.getDataPath() + "whitelist.yml", Config.YAML);
     }
 
     public static void unload() {
@@ -40,5 +47,6 @@ public class ConfigManager {
 
         server.getDataBase().save();
         server.getProperties().save();
+        server.getWhitelist().save();
     }
 }

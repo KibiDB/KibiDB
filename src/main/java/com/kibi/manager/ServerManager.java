@@ -13,6 +13,7 @@ public class ServerManager {
 
     public Config properties;
     public Config database;
+    public Config whitelist;
 
     private CommandMap commandMap;
     private Net net;
@@ -36,6 +37,7 @@ public class ServerManager {
         commandMap.register("remove", new RemoveCommand());
         commandMap.register("clear", new ClearCommand());
         commandMap.register("list", new ListCommand());
+        commandMap.register("whitelist", new WhitelistCommand());
 
         net.start();
 
@@ -57,6 +59,10 @@ public class ServerManager {
 
     public Config getProperties() {
         return properties;
+    }
+
+    public Config getWhitelist() {
+        return whitelist;
     }
 
     public Net getNet() {
@@ -92,6 +98,10 @@ public class ServerManager {
 
     public int getPort() {
         return this.getPropertyInt("port", 3306);
+    }
+
+    public boolean hasWhitelist() {
+        return this.getPropertyBoolean("whitelist", false);
     }
 
     public boolean getAuthentication() {

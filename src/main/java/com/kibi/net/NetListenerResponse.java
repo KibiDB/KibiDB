@@ -12,6 +12,7 @@ public class NetListenerResponse extends Thread {
 
     private final Socket client;
     private final String[] request;
+    private DataOutputStream writer;
     private final Net net;
 
     public NetListenerResponse(Net net, Socket client, String request) {
@@ -23,14 +24,20 @@ public class NetListenerResponse extends Thread {
     public void run() {
         //format of request [password] [request_type] [key] [value:optional]
         try {
-            DataOutputStream writer = new DataOutputStream(client.getOutputStream());
+            writer = new DataOutputStream(client.getOutputStream());
             ServerManager server = Kibi.getServer();
 
             //check password
             if (server.getAuthentication() && !request[0].equals(server.getPassword())) {
                 writer.writeUTF(Responses.INCORRECT_PASSWORD);
-                client.close();
-                writer.close();
+                this.destroy();
+
+                return;
+            }
+
+            if (server.hasWhitelist() && !server.getWhitelist().exists(client.getLocalAddress().getHostAddress())) {
+                writer.writeUTF(Responses.IN_WHITELIST);
+                this.destroy();
 
                 return;
             }
@@ -112,11 +119,19 @@ public class NetListenerResponse extends Thread {
                     break;
             }
 
-            net.channels.remove(client);//remove because the connection ends
-            client.close();
-            writer.close();
+           this.destroy();
         } catch (IOException e) {
-            net.channels.remove(client);//remove in case the connection fails
+            net.channels.remove(client);
+            Kibi.getLogger().warning(e.toString());
+        }
+    }
+
+    public void destroy() {
+        try {
+            net.channels.remove(client);
+            writer.close();
+            client.close();
+        } catch (IOException e) {
             Kibi.getLogger().warning(e.toString());
         }
     }
