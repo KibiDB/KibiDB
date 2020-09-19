@@ -123,7 +123,7 @@ public class NetListenerResponse extends Thread {
            this.destroy();
         } catch (IOException e) {
             net.channels.remove(client);
-            Kibi.getLogger().warning(e.toString());
+            Kibi.getLogger().error(e.toString());
         }
     }
 

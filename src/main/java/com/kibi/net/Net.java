@@ -51,7 +51,7 @@ public class Net extends Thread {
                 this.destroy();
                 System.exit(0);
             } catch (IOException e) {
-                logger.warning(e.toString());
+                logger.error(e.toString());
                 this.destroy();
             }
         }
