@@ -1,6 +1,5 @@
 package com.kibi;
 
-import com.kibi.command.CommandMap;
 import com.kibi.manager.ServerManager;
 
 public class Kibi {

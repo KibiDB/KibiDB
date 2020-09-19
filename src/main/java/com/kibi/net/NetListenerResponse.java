@@ -11,10 +11,12 @@ public class NetListenerResponse extends Thread {
 
     private final Socket client;
     private final String[] request;
+    private final Net net;
 
-    public NetListenerResponse(Socket client, String request) {
+    public NetListenerResponse(Net net, Socket client, String request) {
         this.client = client;
         this.request = request.split(" ");
+        this.net = net;
     }
 
     public void run() {
@@ -99,10 +101,11 @@ public class NetListenerResponse extends Thread {
                     break;
             }
 
+            net.channels.remove(client);
             client.close();
             writer.close();
         } catch (IOException e) {
-            Kibi.getLogger().error(e.toString());
+            Kibi.getLogger().warning(e.toString());
         }
     }
 }

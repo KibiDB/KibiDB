@@ -4,14 +4,18 @@ import com.kibi.Kibi;
 import com.kibi.Logger;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Net extends Thread {
     private int stop_code = 0;
     private ServerSocket socket;
+    public List<Socket> channels = new ArrayList<>();
 
     public void run() {
         Logger logger = Kibi.getLogger();
@@ -26,16 +30,17 @@ public class Net extends Thread {
                 }
 
                 Socket client = socket.accept();
+                channels.add(client);
                 logger.info("Connection accepted " + client.getLocalAddress());
 
                 DataInputStream in = new DataInputStream(client.getInputStream());
                 String listener = in.readUTF();
 
-                Thread response = new NetListenerResponse(client, listener);
+                Thread response = new NetListenerResponse(this, client, listener);
                 response.start();
 
             } catch (SocketException e) {
-                logger.warning(e.toString());
+                logger.error(e.toString());
 
                 try {
                     Thread.sleep(3000);
@@ -52,6 +57,14 @@ public class Net extends Thread {
 
     public void destroy() {
         try {
+            for (Socket client : channels) {
+                DataOutputStream writer = new DataOutputStream(client.getOutputStream());
+
+                writer.writeUTF(Responses.FORCE_SHUTDOWN);
+
+                client.close();
+            }
+
             socket.close();
         } catch (IOException e) {
             Kibi.getLogger().warning(e.toString());
