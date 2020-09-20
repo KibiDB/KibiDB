@@ -31,10 +31,11 @@ public class Net extends Thread {
 
                 Socket client = socket.accept();
                 channels.add(client);
-                logger.info("Connection accepted " + client.getLocalAddress().getHostAddress());
 
                 DataInputStream in = new DataInputStream(client.getInputStream());
                 String listener = in.readUTF();
+
+                logger.info("Connection accepted " + client.getLocalAddress().getHostAddress() + " || Query: " + listener.split(" ")[1]);
 
                 Thread response = new NetListenerResponse(this, client, listener);
                 response.start();
